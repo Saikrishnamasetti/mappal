@@ -2,9 +2,7 @@
     <div class="content">
         <div id="map"></div>
         <script type="text/javascript">
-
-            var map = L.map('map').setView([37.0000, -122.06], 13);
-
+            var map = L.map('map').setView([37.0000, -122.06], 18);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw', {
                 attribution: 'Map data &copy; <a href="http://mapbox.com">MapBox</a> ' +
                 'contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/"></a>, ' +
@@ -13,22 +11,21 @@
                 id: 'mapbox.streets',
                 accessToken: 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw'
             }).addTo(map);
-
+    
             var test = L.marker([37.0000, 122.06]);
-
+    
             test.addTo(map);
-
         </script>
-
+    
         <div class="container">
             <h1>Data Collection</h1>
         </div>
-
+    
         <div class="container">
             <button class="button" id="start">Start</button>
-
+    
         </div>
-
+    
         <div class="container">
             <button class="button" id="stop">Stop</button>
         </div>
@@ -39,7 +36,7 @@
                 {{/each}}
             </ul>
         </div>
-
+    
         <div class="container" id="email">
             <input type="text"/>
         </div>
@@ -47,8 +44,9 @@
 </template>
 
 <template name="task">
-        <script>
-            var meme = L.marker([{{start_lat}}, {{start_long}}]);
-            meme.addTo(map);
-        </script>
+    <script>
+        var meme = L.marker([{{start_lat}}, {{start_long}}]);
+        meme.addTo(map);
+        console.log("places pt");
+    </script>
 </template>
