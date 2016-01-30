@@ -40,7 +40,7 @@ if (!Meteor.isServer) {
         Session.set("accY", 0);
         Session.set("accZ", 0);
 
-        var accOpts = { frequency: 15 };
+        var accOpts = { frequency: 50 };
         navigator.accelerometer.watchAcceleration(onMove, onFail, accOpts);
     });
 }
