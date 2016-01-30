@@ -80,6 +80,7 @@ if (!Meteor.isServer) {
         {
             return Template[Session.get("view")];
         }
+
     });
 
     Template.body.events({
@@ -92,14 +93,15 @@ if (!Meteor.isServer) {
 
         "click .button": function()
         {
+
             tagLocation();
             console.log("going through");
-            if(counter > 3){
-                var temp = Data.find({"name": "name2"});
-                console.log(temp);
-            }
             counter++;
         }
+    });
+
+    Template.task.helpers({
+
     });
 
     Meteor.startup(function () {
@@ -111,6 +113,6 @@ if (!Meteor.isServer) {
         Session.set("accZ", 0);
 
         var accOpts = { frequency: 50 };
-        navigator.accelerometer.watchAcceleration(onMove, onFail, accOpts);
+        //navigator.accelerometer.watchAcceleration(onMove, onFail, accOpts);
     });
 }
