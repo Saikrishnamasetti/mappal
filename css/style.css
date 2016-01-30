@@ -1,12 +1,37 @@
 
 body {
-    background-color: aquamarine;
+    background-color: #ff6533;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
     text-align: center;
+    margin: 10px;
 }
 
 .content {
 
+}
+
+.main-button {
+
+}
+
+.data-button {
+    background-color: #cc3200;
+    border: 2px solid #330d00;
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+#map-body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    width: 95%;
+    height: 95%;
+    position: absolute;
 }
