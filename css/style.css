@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-    text-align: center;
+    text-align: left;
     margin: 10px;
 }
 
@@ -31,7 +31,8 @@ body {
 }
 
 #map {
-    width: 95%;
-    height: 95%;
+    top: 200px;
+    width: 600px;
+    height: 800px;
     position: absolute;
 }
