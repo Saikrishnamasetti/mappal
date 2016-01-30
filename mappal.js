@@ -1,4 +1,4 @@
-if (Meteor.isCordova) {
+if (!Meteor.isServer) {
     function onMove(acc)
     {
         Session.set("accX", acc.x);
@@ -12,24 +12,14 @@ if (Meteor.isCordova) {
     }
 
     Template.body.helpers({
+        notMain: function()
+        {
+            return Session.get("view") != "main";
+        },
+
         getView: function()
         {
-            return Session.get("view");
-        },
-
-        accX: function()
-        {
-            return Session.get("accX");
-        },
-
-        accY: function()
-        {
-            return Session.get("accY");
-        },
-
-        accZ: function()
-        {
-            return Session.get("accZ");
+            return Template[Session.get("view")];
         }
     });
 

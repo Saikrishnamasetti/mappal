@@ -2,10 +2,12 @@
     <meta charset="UTF-8">
     <title>MapPal</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <script src="js/mappal.js" type="text/javascript"></script>
 </head>
 <body>
-    <div id="x">X: {{accX}}</div>
-    <div id="y">Y: {{accY}}</div>
-    <div id="z">Z: {{accZ}}</div>
+    {{#with getView}}
+        {{#if notMain}}
+            {{> backButton}}
+        {{/if}}
+        {{>.}}
+    {{/with}}
 </body>
