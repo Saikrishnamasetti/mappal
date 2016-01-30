@@ -32,8 +32,9 @@
                     }).addTo(map);
 
 
-                    L.marker([37.0000, -122.06]).addTo(map)
-                            .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+                    var test = L.marker([37.0000, -122.06])
+
+                    test.addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
 
                     /*L.circle([51.508, -0.11], 500, {
                         color: 'red',
