@@ -3,7 +3,6 @@
  */
 
 
-
 Data = new Mongo.Collection("data");
 
 var curr_lat = 36.9719;
@@ -24,7 +23,6 @@ Data.schema = new SimpleSchema({
 
 
 function showPosition(position){
-
      Data.insert({
          text: "" + curr_lat + "_" + curr_long + "%%" + position.coords.latitude + "_" + position.coords.longitude,
          name: "test " + counter,
@@ -39,11 +37,7 @@ function showPosition(position){
 
     curr_lat = position.coords.latitude;
     curr_long = position.coords.longitude;
-
-
-
 }
-
 
 function tagLocation() {
     if (navigator.geolocation) {
@@ -58,14 +52,46 @@ if(Meteor.isServer) {
     })
 }
 
+if (!Meteor.isServer) {
+    function onMove(acc)
+    {
+        Session.set("accX", acc.x);
+        Session.set("accY", acc.y);
+        Session.set("accZ", acc.z);
+    }
 
+    function onFail()
+    {
+        alert("onFail!");
+    }
 
-if(Meteor.isClient) {
+    Template.body.helpers({
+        tests: function ()
+        {
+            return Data.find({}, {sort: {createdAt: -1}});
+        },
 
-    Meteor.subscribe("points");
+        notMain: function()
+        {
+            return Session.get("view") != "main";
+        },
+
+        getView: function()
+        {
+            return Template[Session.get("view")];
+        }
+    });
 
     Template.body.events({
-        "click .button": function() {
+        "click .navigate": function(event)
+        {
+            var dest = event.target.id;
+            Session.set("view", dest);
+            console.log(dest);
+        },
+
+        "click .button": function()
+        {
             tagLocation();
             console.log("going through");
             if(counter > 3){
@@ -76,13 +102,15 @@ if(Meteor.isClient) {
         }
     });
 
-    Template.body.helpers({
-        tests: function () {
-            return Data.find({}, {sort: {createdAt: -1}});
-        }
-    });
+    Meteor.startup(function () {
+        Session.set("view", "main");
+        Session.set("sensitivity", 15);
 
-    Template.task.helpers({
+        Session.set("accX", 0);
+        Session.set("accY", 0);
+        Session.set("accZ", 0);
 
+        var accOpts = { frequency: 50 };
+        navigator.accelerometer.watchAcceleration(onMove, onFail, accOpts);
     });
 }
