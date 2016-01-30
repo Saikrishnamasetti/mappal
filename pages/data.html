@@ -1,11 +1,3 @@
-<head>
-    <meta charset="UTF-8">
-    <title>MapPal: Data Collection</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js" ></script>
-</head>
-
 <template name="data">
     <div class="content">
         <div id="map"></div>
@@ -56,7 +48,7 @@
 
 <template name="task">
         <script>
-        var meme = L.marker([{{start_lat}}, {{start_long}}]);
-                meme.addTo(map);
+            var meme = L.marker([{{start_lat}}, {{start_long}}]);
+            meme.addTo(map);
         </script>
 </template>
