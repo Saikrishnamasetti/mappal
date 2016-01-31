@@ -35,11 +35,8 @@ jquery@1.11.4
 launch-screen@1.0.4
 livedata@1.0.15
 logging@1.0.8
-<<<<<<< HEAD
 mdg:geolocation@1.1.0
-=======
 maazalik:highcharts@0.4.0
->>>>>>> 95edbe1641b807e26d338f79e948a87348395479
 mdg:validation-error@0.2.0
 meteor@1.1.10
 meteor-base@1.0.1
