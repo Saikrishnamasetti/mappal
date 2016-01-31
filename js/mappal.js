@@ -44,7 +44,7 @@ if (!Meteor.isServer) {
                     'contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/"></a>, ' +
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     maxZoom: 18,
-                    id: 'mapbox.streets',
+                    id: 'evanfrawley.p1djfdfo',
                     accessToken: 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw'
                 }).addTo(map);
             }

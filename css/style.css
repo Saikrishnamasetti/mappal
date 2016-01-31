@@ -30,15 +30,12 @@ body {
 }
 
 .map {
-    top: 200px;
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+
     position: absolute;
-    height: 95%;
+    height: 100%;
     bottom: 0px;
-    position: fixed;
-    margin-top: 50px;
+    margin: 0;
 }
 
 #header {
@@ -62,4 +59,76 @@ body {
     width: 40px;
     height: 40px;
     display: inline-block;
+}
+
+button {
+    background-color: #f4f4f4;
+    border: 3px solid black;
+    border-radius: 5px;
+    height: 70px;
+    width: 150px;
+    display: inline-block;
+    font-size: 18pt;
+    text-align: center;
+    margin: 0px;
+    position: relative;
+    padding: 0;
+    z-index: 1;
+}
+
+.butt-div {
+    margin-left: auto;
+    margin-right: auto;
+    clear: left;
+    display: inline-block;
+    position: relative;
+}
+
+#buttons {
+    display: inline-block;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+
+}
+
+.data-button>button {
+    text-align: center;
+    display: inline-block;
+    position: relative;
+}
+
+.datab{
+    display: inline-block;
+}
+
+div.data-buttons{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.container>.data-buttons{
+
+}
+
+#back {
+    float: right;
+    clear: right;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.pageheader {
+    display: inline-block;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+
 }

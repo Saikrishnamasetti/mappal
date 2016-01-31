@@ -4,21 +4,22 @@
         {{#if error}}
             <div class="container">Error: {{error.message}}</div>
         {{else}}
-            <div class="container">
+            <div class="pageheader">
                 <h1>Data Collection</h1>
             </div>
-    
-            <div class="container">
-                <button class="button" id="start">Start</button>
-            </div>
 
-            <div class="container">
-                <button class="button" id="checkpoint">Checkpoint</button>
-            </div>
 
-            <div class="container">
-                <button class="button" id="stop">Stop</button>
-            </div>
+            {{#if start}}
+                <div class="data-buttons">
+                    <button class="button datab" id="start" >Start</button>
+                </div>
+            {{else}}
+                <div class="data-buttons">
+                    <button class="button datab" id="checkpoint">Checkpoint</button>
+                    <button class="button datab" id="stop">Stop</button>
+                </div>
+            {{/if}}
+
         {{/if}}
         <div class="map mapbox" id="map-data"></div>
     </div>
