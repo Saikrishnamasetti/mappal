@@ -176,21 +176,26 @@ if(Meteor.isServer)
 
 if (!Meteor.isServer)
 {
+    var didStart = false;
     Template.data.helpers({
-        error: function()
-        {
+        error: function () {
             var err = Geolocation.error();
             if (err) {
                 return err;
             }
 
             if (!Geolocation.latLng()) {
-                return { message: "GPS not ready" };
+                return {message: "GPS not ready"};
             }
+        },
+        start: function () {
+            return !Session.get('didStart');
         }
     });
 
     var map = null;
+
+
     Template.data.rendered = function () {
         this.autorun(function () {
             if (Mapbox.loaded()) {
@@ -201,9 +206,10 @@ if (!Meteor.isServer)
                     'contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/"></a>, ' +
                     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     maxZoom: 18,
-                    id: 'mapbox.streets',
+                    id: 'evanfrawley.p1djfdfo',
                     accessToken: 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw'
                 }).addTo(map);
+
             }
         });
     };
@@ -216,10 +222,10 @@ if (!Meteor.isServer)
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
             Session.set("startPt", id);
+            Session.set("didStart", true);
 
             var marker = L.marker([latLng.lat, latLng.lng]).addTo(map);
             drawPaths();
-
             var opts = { frequency: 100 };
             if (navigator.accelerometer) {
                 var id = navigator.accelerometer.watchAcceleration(onMove, onFail, opts);
