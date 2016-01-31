@@ -19,5 +19,9 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 aldeed:simple-schema
+<<<<<<< HEAD
 mdg:geolocation
 reactive-var
+=======
+maazalik:highcharts
+>>>>>>> 95edbe1641b807e26d338f79e948a87348395479
