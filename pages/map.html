@@ -8,8 +8,8 @@
 
             <script type="text/javascript">
 
-               L.mapbox.accessToken = 'pk' +
-                        '.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw';
+                L.mapbox.accessToken = 'pk' +
+                       '.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw';
 
                 var map = L.map('map').setView([37.0000, -122.06], 18);
 
@@ -22,7 +22,14 @@
                     accessToken: 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw'
                 }).addTo(map);
 
-                map.addControl(L.mapbox.geocoderControl('mapbox' + '.places'));
+                var waypoints = Session.get("locations");
+
+                var durl = "";
+                durl = durl.concat("https://api.mapbox.com/v4/directions/mapbox.walking/", "-122" +
+                        ".42,37.78;-77.03,38.91", ".json?access_token=", token);
+                L.tileLayer(durl, "mapbox.walking", L.mapbox.accessToken).addTo(map);
+
+                map.addControl(L.mapbox.geocoderControl('mapbox.places'));
                 var lat = Session.get("curr_lat");
                 var long = Session.get("curr_long");
                 var test = L.marker([lat, long]);
