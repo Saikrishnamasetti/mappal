@@ -14,7 +14,15 @@ if (!Meteor.isServer) {
 
             return {
                 chart: {
-                    type: 'area'
+                    type: 'area',
+                    backgroundColor: "#d7d7d7",
+                    style: {
+                        fontFamily: "Cantarell",
+                        fontStyle: "italic",
+                        plotBackgroundColor: "#93daf4",
+                        borderWidth: 3,
+                        borderColor: "#151515"
+                    },
                 },
 
                 title: "Acceleration",
@@ -27,9 +35,11 @@ if (!Meteor.isServer) {
                     allowDecimals: true,
                     labels: {
                         formatter: function() {
-                            return this.value;
+                            return this.value / 10;
                         }
-                    }
+                    },
+                    title: "Time (seconds)",
+
                 },
 
                 yAxis: {
@@ -38,7 +48,8 @@ if (!Meteor.isServer) {
                         formatter: function() {
                             return this.value;
                         }
-                    }
+                    },
+                    title: "Acceleration (m/s/s)"
                 },
 
                 plotOptions: {

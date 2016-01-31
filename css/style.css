@@ -189,6 +189,7 @@ div.data-buttons{
 
 }
 
+
 #bb {
     margin: 8px;
 }
@@ -237,4 +238,15 @@ div {
 
 #footer {
     vertical-align: bottom;
+}
+
+#seglist {
+    width: 225px;
+}
+
+.seg-item {
+    margin: 3px;
+    border: 2px solid #444444;
+    border-radius: 2px;
+    position: relative;
 }
