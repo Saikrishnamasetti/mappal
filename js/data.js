@@ -1,13 +1,6 @@
 Segments = new Mongo.Collection("segments");
 Points   = new Mongo.Collection("points");
 
-var curr_lat = 36.9719;
-var curr_long = 122.0264;
-var counter = 0;
-
-var person = null;
-//var testsession = null;
-
 Segments.schema = new SimpleSchema(
     { startPt:   {type: Object}
     , endPt:     {type: Object}
@@ -159,6 +152,10 @@ if (!Meteor.isServer)
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
             Session.set("startPt", id);
+
+            var opts = { frequency: 100 };
+            var id   = navigator.accelerometer.watchAcceleration(onMove, onFail, opts);
+            Session.set("watchID", id);
 
             console.log(id, latLng);
         },
