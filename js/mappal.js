@@ -2,6 +2,7 @@
  * Created by Evan on 1/29/2016.
  */
 
+var map = null;
 
 if (!Meteor.isServer) {
     Template.body.helpers({
@@ -38,7 +39,7 @@ if (!Meteor.isServer) {
         this.autorun(function () {
             if (Mapbox.loaded()) {
                 L.mapbox.accessToken = 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw';
-                var map = L.mapbox.map('map-dir', "mapbox.streets").setView([37.0000, -122.06], 13);
+                map = L.mapbox.map('map-dir', "mapbox.streets").setView([37.0000, -122.06], 13);
                 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw', {
                     attribution: 'Map data &copy; <a href="http://mapbox.com">MapBox</a> ' +
                     'contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/"></a>, ' +
@@ -47,6 +48,10 @@ if (!Meteor.isServer) {
                     id: 'evanfrawley.p1djfdfo',
                     accessToken: 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw'
                 }).addTo(map);
+                var geocoder = L.mapbox.geocoder('mapbox.places');
+                map.addControl(L.mapbox.geocoderControl('mapbox.places'));
+
+                
             }
         });
     };

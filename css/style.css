@@ -70,7 +70,7 @@ button {
     display: inline-block;
     font-size: 18pt;
     text-align: center;
-    margin: 0px;
+    margin: 10px;
     position: relative;
     padding: 0;
     z-index: 1;
@@ -116,8 +116,7 @@ div.data-buttons{
 #back {
     float: right;
     clear: right;
-    margin-top: 5px;
-    margin-right: 5px;
+    margin: 0;
 }
 
 .pageheader {
@@ -131,4 +130,14 @@ div {
     margin: 0;
     padding: 0;
 
+}
+
+#leftdiv {
+    float: left;
+}
+
+#leftdiv>.datab, #leftstart>.datab{
+    float: left;
+    clear: left;
+    left: 38px;
 }

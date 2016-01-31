@@ -4,17 +4,15 @@
         {{#if error}}
             <div class="container">Error: {{error.message}}</div>
         {{else}}
-            <div class="pageheader">
-                <h1>Data Collection</h1>
-            </div>
+
 
 
             {{#if start}}
-                <div class="data-buttons">
+                <div id="leftstart" class="data-buttons">
                     <button class="button datab" id="start" >Start</button>
                 </div>
             {{else}}
-                <div class="data-buttons">
+                <div id="leftdiv" class="data-buttons">
                     <button class="button datab" id="checkpoint">Checkpoint</button>
                     <button class="button datab" id="stop">Stop</button>
                 </div>
