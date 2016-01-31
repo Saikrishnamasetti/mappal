@@ -1,32 +1,24 @@
 <template name="data">
     <div class="content">
         <div id="map"></div>
-
-
-        <div class="container">
-            <h1>Data Collection</h1>
-        </div>
-    
-        <div class="container">
-            <button class="button" id="start">Start</button>
-    
-        </div>
-
-        <div class="container">
-            <button class="button" id="checkpoint">Checkpoint</button>
-
-        </div>
-
-        <div class="container">
-            <button class="button" id="stop">Stop</button>
-        </div>
-    
-        <div class="container" id="email">
-            <input type="text"/>
-        </div>
-
         {{#if error}}
             <div class="container">Error: {{error.message}}</div>
+        {{else}}
+            <div class="container">
+                <h1>Data Collection</h1>
+            </div>
+    
+            <div class="container">
+                <button class="button" id="start">Start</button>
+            </div>
+
+            <div class="container">
+                <button class="button" id="checkpoint">Checkpoint</button>
+            </div>
+
+            <div class="container">
+                <button class="button" id="stop">Stop</button>
+            </div>
         {{/if}}
     </div>
 </template>
