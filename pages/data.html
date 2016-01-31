@@ -1,7 +1,4 @@
 <template name="data">
-
-
-
     <div class="content">
         <div id="map"></div>
 
@@ -27,6 +24,10 @@
         <div class="container" id="email">
             <input type="text"/>
         </div>
+
+        {{#if error}}
+            <div class="container">Error: {{error.message}}</div>
+        {{/if}}
     </div>
 </template>
 
