@@ -80,12 +80,12 @@ if (!Meteor.isServer)
         {
 
             var locs = Session.get("locations");
-            var old_lat = Session.get("curr_lat").toString();
-            var old_long = Session.get("curr_long").toString();
+            var old_lat = Session.get("curr_lat");
+            var old_long = Session.get("curr_long");
             var latLng = Geolocation.latLng();
             var thisLocation = "";
-            thisLocation = thisLocation.concat(old_long , ",", old_lat, ";", latLng.lng, ",", latLng.lat);
-            locs = locs.concat("#", thisLocation);
+            thisLocation = thisLocation.concat(";", latLng.lng, ",", latLng.lat);
+            locs = locs.concat(thisLocation);
             Session.set("locations", locs);
             Data.insert({
                 text: thisLocation,
@@ -117,9 +117,9 @@ if (!Meteor.isServer)
             var old_long = Session.get("curr_long");
             var latLng = Meteor.call("loc");
             var thisLocation = "";
-            thisLocation = thisLocation.concat(old_long , ",", old_lat, ";", latLng.lng, ",", latLng.lat);
             Session.set("ending", thisLocation);
-            locs = locs.concat("#", thisLocation);
+            thisLocation = thisLocation.concat(";", latLng.lng, ",", latLng.lat);
+            locs = locs.concat(thisLocation);
             Session.set("locations", locs);
             Data.insert({
                 text: thisLocation,
