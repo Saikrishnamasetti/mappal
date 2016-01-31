@@ -4,21 +4,18 @@
 
 if (!Meteor.isServer) {
     Template.body.helpers({
-        notMain: function()
-        {
+        notMain: function () {
             return Session.get("view") != "main";
         },
 
-        getView: function()
-        {
+        getView: function () {
             return Template[Session.get("view")];
         }
 
     });
 
     Template.body.events({
-        "click .navigate": function(event)
-        {
+        "click .navigate": function (event) {
             var dest = event.target.id;
             Session.set("view", dest);
             console.log(dest);
@@ -41,4 +38,3 @@ Meteor.methods({
         return AccelEvents.remove({});
     }
 });
-
