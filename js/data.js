@@ -3,9 +3,8 @@ Points   = new Mongo.Collection("points");
 
 var curr_lat = 36.9719;
 var curr_long = 122.0264;
-var counter = 0;
 
-var person = null;
+
 //var testsession = null;
 
 Segments.schema = new SimpleSchema(
@@ -55,11 +54,18 @@ function insertGeoPoint()
     var newPt     = latLngToMeters(latLng);
     var allPoints = Points.find({});
     var ptID      = -1;
-
+    var marker = null;
     allPoints.forEach(function(pt) {
+
         if (withinDist(newPt, pt.center, 5)) {
             ptID = pt._id;
+
         }
+        var ll = metersToLatLng(pt.center);
+        var lat = ll.lat;
+        var lng = ll.lng;
+        marker = L.marker([ll.lat, ll.lng]).addTo(map);
+
     });
 
     if (ptID === -1) {
@@ -83,6 +89,18 @@ function insertGeoPoint()
     return ptID;
 }
 
+function drawPaths()
+{
+    var test1 = L.latLng(36.99985, -122.06221);
+    var test2 = L.latLng(37.00016, -122.06103);
+    var test3 = L.latLng(36.99979, -122.05908);
+    var test4 = L.latLng(37.00000, -122.05687);
+    var testarr = [test1, test2, test3, test4];
+
+    var pl = L.polyline(testarr).addTo(map);
+    console.log("rip");
+}
+
 function endSegment(id)
 {
     var segment = Segments.findOne(
@@ -103,32 +121,6 @@ function endSegment(id)
         });
     }
 }
-
-
-/*function showPosition(position){
-  Data.insert({
-  text: "" + curr_lat + "_" + curr_long + "%%" + position.coords.latitude + "_" + position.coords.longitude,
-  name: "test " + counter,
-  start_lat: curr_lat,
-  start_long: curr_long,
-  stop_lat: position.coords.latitude,
-  stop_long: position.coords.longitude,
-  route_qual: 1.0,
-  route_grade: 1.0,
-  createdAt: new Date()
-  });
-
-  curr_lat = position.coords.latitude;
-  curr_long = position.coords.longitude;
-  }
-
-  function tagLocation() {
-  if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(showPosition);
-
-  }
-  }
-  */
 
 if(Meteor.isServer)
 {
@@ -152,14 +144,36 @@ if (!Meteor.isServer)
             }
         }
     });
+var map = null;
+    Template.data.rendered = function () {
+        this.autorun(function () {
+            if (Mapbox.loaded()) {
+                L.mapbox.accessToken = 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw';
+                map = L.mapbox.map('map-data', "mapbox.streets").setView([37.0000, -122.06], 13);
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw', {
+                    attribution: 'Map data &copy; <a href="http://mapbox.com">MapBox</a> ' +
+                    'contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/"></a>, ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoiZXZhbmZyYXdsZXkiLCJhIjoiY2lqemV0cDJpMmx2a3Z3bTV2dGh1bmt0MSJ9.gJsWsiu3AareD8XkI1-0Aw'
+                }).addTo(map);
+            }
+        });
+    };
+
+
 
     Template.data.events({
+
         "click #start": function()
         {
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
             Session.set("startPt", id);
 
+            var marker = L.marker([latLng.lat, latLng.lng]).addTo(map);
+            drawPaths();
             console.log(id, latLng);
         },
 
