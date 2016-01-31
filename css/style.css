@@ -29,11 +29,14 @@ body {
     padding: 0;
 }
 
-#map {
+.map {
     top: 200px;
-    width: 600px;
-    height: 800px;
+    width: 90%;
     position: absolute;
+    height: 90%;
+    bottom: 0px;
+    position: fixed;
+    margin-top: 50px;
 }
 
 #header {
