@@ -1,19 +1,26 @@
 <template name="main">
-
-    <div class="content" id="buttons">
+    <div class="background-image"></div>
+    <div class="content" id="mainpage">
         <div id="header">
             <h1 id="test">MapPal</h1>
-
         </div>
 
         <div class="butt">
-            <button class="navigate" id="directions">Get Directions</button> <br/>
+            <button class="navigate" id="directions"><img src="/icon/dir.png" id="dir"/> <span
+                    id="dd">Get
+                    Directions</span></button>
 
-            <button class="navigate" id="data">Collect Data</button> <br/>
+            <br/>
+            <button class="navigate" id="data"><img src="/icon/book.png" id="book-icon" />
+                <span id="aa">Collect
+                Data </span></button> <br/>
 
-            <button class="navigate" id="segments">View Segments</button> <br/>
+            <button class="navigate" id="segments"><img src="/icon/chart.png" id="chart"/>
+                <span id="ss">View
+                Segments</span></button> <br/>
         </div>
 
-
+        <footer id="footer"><p>Created by <br/>Chase Cummings and Evan Frawley
+            <br/>UCSC Hack 2016</p></footer>
     </div>
 </template>

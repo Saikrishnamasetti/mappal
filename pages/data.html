@@ -6,12 +6,16 @@
         {{else}}
             {{#if start}}
                 <div id="leftstart" class="data-buttons">
-                    <button class="button datab" id="start" >Start</button>
+                    <button class="button datab start" id="start" ><img class="start circle-icon"
+                                                                        src="/icon/add.png"
+                    ></button>
                 </div>
             {{else}}
                 <div id="leftdiv" class="data-buttons">
-                    <button class="button datab" id="checkpoint">Checkpoint</button>
-                    <button class="button datab" id="stop">Stop</button>
+                    <button class="button datab checkpoint" id="checkpoint"><img
+                            src="/icon/flag.png" class="checkpoint circle-icon"></button>
+                    <button class="button datab stop" id="stop"><img src="/icon/check.png"
+                                                                     class="stop circle-icon"></button>
                 </div>
             {{/if}}
         {{/if}}

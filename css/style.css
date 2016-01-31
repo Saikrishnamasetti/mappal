@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-
+    font-family: "Cantarell", Helvetica, sans-serif;
+    font-style: italic;
 }
 
 .container {
@@ -9,11 +9,50 @@ body {
 }
 
 .content {
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+}
+
+.navigate {
+    text-align: center;
+}
+
+
+
+.butt>.navigate {
+    width: 240px;
+    text-align: center;
+}
+
+.navigate>img {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: inline-block;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
 
 }
 
-.main-button {
+#chart{
+    margin-left: 20px;
+}
 
+.navigate>span {
+    display: inline-block;
+    float: left;
+    margin-top: 21px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#dir {
+    margin-left: 23px;
+}
+
+#book-icon {
+    margin-left: 32px;
 }
 
 .data-button {
@@ -39,20 +78,49 @@ body {
 }
 
 #header {
-    height: 20%;
-    width: 100%;
-    background-image: url("/img/road.jpg");
-}
-#test {
-    background-image: url("../public/img/road.jpg");
+    z-index: 2;
 }
 
-.content {
-    background-image: url("img/road.jpg");
+
+#mainpage{
+    z-index: 10;
+
+}
+.content>.butt{
+    text-align: center;
+}
+
+div#mainpage {
+    text-align: center;
+}
+
+.butt {
+    display: inline-block;
+}
+
+.butt>button {
+    float: left;
+    display: inline-block;
+}
+
+.background-image {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1;
+
+    display: block;
+    background-image: url("/img/map_back.png");
+    backgroun-size: cover;
     height: 100%;
     width: 100%;
-}
 
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
 
 #kek {
 
@@ -68,7 +136,7 @@ button {
     height: 70px;
     width: 135px;
     display: inline-block;
-    font-size: 18pt;
+    font-size: 16pt;
     text-align: center;
     margin: 10px;
     position: relative;
@@ -101,6 +169,14 @@ button {
 
 .datab{
     display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+
+}
+
+.datab>img{
+    margin-top: 3px;
 }
 
 div.data-buttons{
@@ -109,14 +185,21 @@ div.data-buttons{
     text-align: center;
 }
 
-.container>.data-buttons{
+.container>.data-buttons {
 
 }
 
-#back {
+#bb {
+    margin: 8px;
+}
+
+.backbutton {
     float: right;
     clear: right;
     margin: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
 }
 
 .pageheader {
@@ -124,6 +207,11 @@ div.data-buttons{
     float: left;
     margin-top: 5px;
     margin-left: 5px;
+}
+
+#test{
+    z-index: 100;
+    font-size: 40pt;
 }
 
 div {
@@ -138,6 +226,15 @@ div {
 
 #leftdiv>.datab, #leftstart>.datab{
     float: left;
-    clear: left;
+
     left: 38px;
+}
+
+@font-face {
+    font-family: "Cantarell";
+    src: url("/fonts/Cantarell/Cantarell-Bold.ttf")
+}
+
+#footer {
+    vertical-align: bottom;
 }
