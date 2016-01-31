@@ -189,7 +189,7 @@ if (!Meteor.isServer)
             }
         },
         start: function () {
-            return !Session.get('didStart');
+            return !Session.get('active');
         }
     });
 
@@ -222,7 +222,7 @@ if (!Meteor.isServer)
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
             Session.set("startPt", id);
-            Session.set("didStart", true);
+            Session.set("active", true);
 
             var marker = L.marker([latLng.lat, latLng.lng]).addTo(map);
             drawPaths();
@@ -265,15 +265,15 @@ if (!Meteor.isServer)
                 navigator.accelerometer.clearWatch(Session.get("watchID"));
             }
 
+            Session.set("active", false);
+
             if (id === Session.get("startPt")) {
                 removeActiveEvents();
                 return;
             }
 
             var segID = endSegment(id);
-
             associateActiveEvents(segID);
-
             console.log(id, latLng);
         }
     });
