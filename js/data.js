@@ -29,7 +29,7 @@ AccelEvents.schema = new SimpleSchema(
 function latLngToMeters(latLng)
 {
     var x = latLng.lat * 111130;
-    var y = latLng.lng * (111320 * Math.cos(latLng.lat));
+    var y = latLng.lng * (111320 * Math.cos(latLng.lat * Math.PI / 180));
     console.log(latLng.lat + " -> " + x);
     console.log(latLng.lng + " -> " + y);
     return { x: x, y: y };
@@ -38,7 +38,7 @@ function latLngToMeters(latLng)
 function metersToLatLng(pt)
 {
     var lat = pt.x / 111130;
-    var lng = pt.y / (111320 * Math.cos(lat));
+    var lng = pt.y / (111320 * Math.cos(lat * Math.PI / 180));
     return { lat: lat, lng: lng };
 }
 
@@ -49,6 +49,12 @@ function getLatLng(id)
 }
 
 // dist in meters
+function sqDist(ptA, ptB)
+{
+    var sq = function(x) { return Math.pow(x, 2); };
+    return sq(ptA.x - ptB.x) + sq(ptA.y - ptB.y);
+}
+
 function withinDist(ptA, ptB, dist)
 {
     var sq     = function(x) { return Math.pow(x, 2); };
@@ -63,17 +69,12 @@ function insertGeoPoint()
     var newPt     = latLngToMeters(latLng);
     var allPoints = Points.find({});
     var ptID      = -1;
-    var marker = null;
-    allPoints.forEach(function(pt) {
+    var marker    = L.marker([latLng.lat, latLng.lng]).addTo(map);
 
+    allPoints.forEach(function(pt) {
         if (withinDist(newPt, pt.center, 5)) {
             ptID = pt._id;
         }
-        var ll = metersToLatLng(pt.center);
-        var lat = ll.lat;
-        var lng = ll.lng;
-        marker = L.marker([ll.lat, ll.lng]).addTo(map);
-
     });
 
     if (ptID === -1) {
