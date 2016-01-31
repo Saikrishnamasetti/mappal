@@ -188,7 +188,7 @@ function getNearestPoint(latLng)
 
     return rPt;
 }
-
+var path = null;
 function onMarkerClick(e)
 {
     if (!e.target.pathed) {
@@ -196,16 +196,29 @@ function onMarkerClick(e)
         var start  = getNearestPoint(latLng);
         var end    = getNearestPoint(e.latlng);
         var paths  = getPaths(start, end);
+        e.target.paths = paths;
+
+        var points = new Array();
+        for (var i = 0; i < paths[0].length; i++) {
+            var pt = Points.findOne({ _id: paths[0][i] });
+            points.push(metersToLatLng(pt.center));
+        }
 
         var tulipText = '';
         for (var i = 0; i < paths.length; i++) {
-            tulipText = tulipText + '<div class="path" id="' + i + '">Path ' + i + '</div>';
+            tulipText = tulipText + '<div class="path" id="' + i + '">Path 1</div>';
         }
 
         e.target.bindPopup(tulipText);
         e.target.openPopup();
         e.target.pathed = true;
+        e.target.points  = points;
     }
+    if (path) {
+        map.removeLayer(path);
+    }
+    path = L.polyline(e.target.points).addTo(map);
+    Session.set("pathPoints", e.target.paths[0]);
 }
 
 if (!Meteor.isServer) {

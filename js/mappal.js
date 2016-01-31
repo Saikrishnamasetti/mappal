@@ -36,6 +36,11 @@ if (!Meteor.isServer) {
         "click .clear": function(event)
         {
             Meteor.call('clearAccData');
+        },
+
+        "click .path": function(event)
+        {
+            Session.set("view", "segments");
         }
     });
 

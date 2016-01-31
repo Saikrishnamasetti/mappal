@@ -8,7 +8,27 @@ if (!Meteor.isServer) {
 
     Template.segments.helpers({
         segments: function() {
-            return Segments.find({});
+            var points = Session.get("pathPoints");
+            var segs   = new Array();
+            for (var i = 0; i < points.length - 1; i++) {
+                console.log(points[i]);
+                var next = i + 1;
+                console.log(points[next]);
+                var seg = Segments.findOne(
+                    { startPt: points[next]
+                    , endPt:   points[i]
+                });
+                if (!seg) {
+                    seg = Segments.findOne(
+                        { startPt: points[i]
+                        , endPt:   points[next]
+                    });
+                }
+                segs.push(seg);
+            }
+            console.log(segs);
+            return segs;
+            //return Segments.find({});
         }
     });
 
