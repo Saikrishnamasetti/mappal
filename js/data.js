@@ -30,8 +30,8 @@ function latLngToMeters(latLng)
 {
     var x = latLng.lat * 111130;
     var y = latLng.lng * (111320 * Math.cos(latLng.lat * Math.PI / 180));
-    console.log(latLng.lat + " -> " + x);
-    console.log(latLng.lng + " -> " + y);
+    //console.log(latLng.lat + " -> " + x);
+    //console.log(latLng.lng + " -> " + y);
     return { x: x, y: y };
 }
 
@@ -72,7 +72,7 @@ function insertGeoPoint()
     var marker    = L.marker([latLng.lat, latLng.lng]).addTo(map);
 
     allPoints.forEach(function(pt) {
-        if (withinDist(newPt, pt.center, 5)) {
+        if (withinDist(newPt, pt.center, 15)) {
             ptID = pt._id;
         }
     });
@@ -162,6 +162,7 @@ function associateActiveEvents(segID)
 
 function removeActiveEvents()
 {
+    console.log("removing");
     var activeEvents = AccelEvents.find({ segID: "active" });
     activeEvents.forEach(function(acc) {
         AccelEvents.remove({ _id: acc._id });

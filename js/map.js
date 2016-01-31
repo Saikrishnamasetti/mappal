@@ -5,21 +5,19 @@ function Node(pt)
     this.id        = id++;
     this.pt        = pt;
     this.neighbors = [];
-}
 
-Node.prototype =
-{
-    addNeighbor: function(n)
+    this.addNeighbor = function(n)
     {
         if (!isNeighbor(this, n)) {
-            this.neighbords.push(n);
+            this.neighbors.push(n);
         }
     }
 }
 
 function isNeighbor(node, neighbor)
 {
-    for (var n in node.neighbors) {
+    for (var i = 0; i < node.neighbors.length; i++) {
+        var n = node.neighbors[i];
         if (n.id === neighbor.id) {
             return true;
         }
@@ -29,7 +27,8 @@ function isNeighbor(node, neighbor)
 
 function findNode(nodes, pt)
 {
-    for (var n in nodes) {
+    for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
         if (n.pt == pt) {
             return n;
         }
@@ -53,7 +52,7 @@ function createPath(prev, node)
     var curr = node;
 
     do {
-        path.push(currN.pt);
+        path.push(curr.pt);
         curr = prev[curr.id];
     } while (curr);
 
@@ -65,23 +64,26 @@ function getPaths(ptA, ptB)
     var segments = Segments.find({});
     var nodes    = new Array();
     var paths    = new Array();
-    var dist;
-    var prev;
+    var dist     = new Object();
+    var prev     = new Object();
 
     segments.forEach(function(seg) {
-        var start = findNode(nodes, seg.startPt._id);
-        var end   = findNode(nodes, seg.endPt._id);
+        var start = findNode(nodes, seg.startPt);
+        var end   = findNode(nodes, seg.endPt);
         if (start) {
             if (!end) {
-                end = new Node(seg.endPt._id);
+                end = new Node(seg.endPt);
+                nodes.push(end);
             }
             start.addNeighbor(end);
             end.addNeighbor(start);
         } else {
             if (!end) {
-                end = new Node(seg.endPt._id);
+                end = new Node(seg.endPt);
+                nodes.push(end);
             }
-            start = new Node(seg.startPt._id);
+            start = new Node(seg.startPt);
+            nodes.push(start);
             start.addNeighbor(end);
             end.addNeighbor(start);
         }
@@ -90,8 +92,9 @@ function getPaths(ptA, ptB)
     var startNode = findNode(nodes, ptA._id);
     var endNode   = findNode(nodes, ptB._id);
 
-    for (var n in nodes) {
-        dist[n.id] = 999999999;
+    for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        dist[n.id] = Number.POSITIVE_INFINITY;
         prev[n.id] = null;
     }
 
@@ -101,7 +104,8 @@ function getPaths(ptA, ptB)
         nodes = nodes.sort(function(a, b) { return dist[b.id] - dist[a.id]; });
         var u = nodes.pop();
 
-        for (var n in u.neighbors) {
+        for (var i = 0; i < u.neighbors.length; i++) {
+            var n = u.neighbors[i];
             var alt = dist[u.id] + 1;
             if (alt < dist[n.id]) {
                 dist[n.id] = alt;
@@ -124,8 +128,8 @@ function latLngToMeters(latLng)
 {
     var x = latLng.lat * 111130;
     var y = latLng.lng * (111320 * Math.cos(latLng.lat * Math.PI / 180));
-    console.log(latLng.lat + " -> " + x);
-    console.log(latLng.lng + " -> " + y);
+    //console.log(latLng.lat + " -> " + x);
+    //console.log(latLng.lng + " -> " + y);
     return { x: x, y: y };
 }
 
@@ -152,8 +156,8 @@ function sqDist(ptA, ptB)
 function getNearestPoint(latLng)
 {
     var nPt  = latLngToMeters(latLng);
-    var rPt   = null
-    var dist = 999999999;
+    var rPt  = null
+    var dist = Number.POSITIVE_INFINITY;
 
     Points.find({}).forEach(function(pt) {
         var sd = sqDist(nPt, pt.center);
@@ -168,15 +172,21 @@ function getNearestPoint(latLng)
 
 function onMarkerClick(e)
 {
-    var latLng = Geolocation.latLng();
-    var start  = getNearestPoint(latLng);
-    var end    = getNearestPoint(e.latLng);
-    var paths  = getPaths(start, end);
+    if (!e.pathed) {
+        var latLng = Geolocation.latLng() || { lat: 0, lng: 0 };
+        var start  = getNearestPoint(latLng);
+        var end    = getNearestPoint(e.latlng);
+        var paths  = getPaths(start, end);
 
-    var tulipText = '<div class="path" id="1">Path 1</div>'
-        + '<div class="path" id="2">Path 2</div>'
-        + '<div class="path" id="3">Path 3</div>'
-    marker.bindPopup();
+        var tulipText = '';
+        for (var i = 0; i < paths.count; i++) {
+            tulipText = tulipText + '<div class="path" id="' + i + '">Path ' + i + '</div>';
+        }
+
+        e.bindPopup(tulipText);
+        e.openPopup();
+        e.pathed = true;
+    }
 }
 
 if (!Meteor.isServer) {
