@@ -57,6 +57,19 @@ if(Meteor.isServer)
 
 if (!Meteor.isServer)
 {
+    Template.data.helpers({
+        error: function()
+        {
+            var err = Geolocation.error();
+            if (err) {
+                return err;
+            }
+
+            if (!Geolocation.latLng()) {
+                return { message: "GPS not ready" };
+            }
+        }
+    });
 
     Template.data.events({
         "click #start": function()
