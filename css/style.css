@@ -31,9 +31,11 @@ body {
 
 .map {
     top: 200px;
-    width: 90%;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
     position: absolute;
-    height: 90%;
+    height: 95%;
     bottom: 0px;
     position: fixed;
     margin-top: 50px;
