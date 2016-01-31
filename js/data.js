@@ -186,7 +186,7 @@ if (!Meteor.isServer)
             }
         }
     });
-var map = null;
+    var map = null;
     Template.data.rendered = function () {
         this.autorun(function () {
             if (Mapbox.loaded()) {
