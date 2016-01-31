@@ -51,7 +51,7 @@ if (!Meteor.isServer) {
                 var geocoder = L.mapbox.geocoder('mapbox.places');
                 map.addControl(L.mapbox.geocoderControl('mapbox.places'));
 
-                
+
             }
         });
     };
