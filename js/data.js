@@ -1,12 +1,6 @@
 Segments = new Mongo.Collection("segments");
 Points   = new Mongo.Collection("points");
 
-var curr_lat = 36.9719;
-var curr_long = 122.0264;
-
-
-//var testsession = null;
-
 Segments.schema = new SimpleSchema(
     { startPt:   {type: Object}
     , endPt:     {type: Object}
@@ -174,6 +168,11 @@ var map = null;
 
             var marker = L.marker([latLng.lat, latLng.lng]).addTo(map);
             drawPaths();
+
+            var opts = { frequency: 100 };
+            var id   = navigator.accelerometer.watchAcceleration(onMove, onFail, opts);
+            Session.set("watchID", id);
+
             console.log(id, latLng);
         },
 

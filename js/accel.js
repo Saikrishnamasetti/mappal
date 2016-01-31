@@ -1,4 +1,13 @@
 AccelEvents = new Mongo.Collection("accel");
+
+AccelEvents.schema = new SimpleSchema(
+    { segID:     {type: String}
+    , x:         {type: Number}
+    , y:         {type: Number}
+    , z:         {type: Number}
+    , createdAt: {type: Date}
+});
+
 var watchID;
 
 if (Meteor.isServer) {
@@ -15,15 +24,12 @@ if (Meteor.isServer) {
 if (!Meteor.isServer) {
     function onMove(acc)
     {
-        Session.set("accX", acc.x);
-        Session.set("accY", acc.y);
-        Session.set("accZ", acc.z);
-
-        AccelEvents.insert({
-            x: acc.x,
-            y: acc.y,
-            z: acc.z,
-            createdAt: new Date()
+        AccelEvents.insert(
+            { segID:     "active"
+            , x:         acc.x
+            , y:         acc.y
+            , z:         acc.z
+            , createdAt: new Date()
         });
     }
 
