@@ -20,6 +20,15 @@ if (!Meteor.isServer) {
     Template.body.events({
         "click .navigate": function (event) {
             var dest = event.target.id;
+            if(dest === "bb"){
+                dest = "main";
+            } else if (dest === "aa" || dest === "book-icon"){
+                dest = "data";
+            } else if (dest === "dir"|| dest === "dd"){
+                dest = "directions";
+            } else if (dest === "chart" || dest === "ss"){
+                dest = "segments";
+            }
             Session.set("view", dest);
             console.log(dest);
         },

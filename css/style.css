@@ -19,6 +19,7 @@ body {
 }
 
 
+
 .butt>.navigate {
     width: 240px;
     text-align: center;
@@ -168,6 +169,14 @@ button {
 
 .datab{
     display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+
+}
+
+.datab>img{
+    margin-top: 3px;
 }
 
 div.data-buttons{
@@ -176,11 +185,15 @@ div.data-buttons{
     text-align: center;
 }
 
-.container>.data-buttons{
+.container>.data-buttons {
 
 }
 
-#main {
+#bb {
+    margin: 8px;
+}
+
+.backbutton {
     float: right;
     clear: right;
     margin: 0;
@@ -213,7 +226,7 @@ div {
 
 #leftdiv>.datab, #leftstart>.datab{
     float: left;
-    clear: left;
+
     left: 38px;
 }
 

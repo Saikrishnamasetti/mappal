@@ -217,7 +217,7 @@ if (!Meteor.isServer)
 
 
     Template.data.events({
-        "click #start": function()
+        "click .start": function()
         {
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
@@ -236,7 +236,7 @@ if (!Meteor.isServer)
             console.log("latLng: " + latLng.lat + ", " + latLng.lng);
         },
 
-        "click #checkpoint": function()
+        "click .checkpoint": function()
         {
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
@@ -256,7 +256,7 @@ if (!Meteor.isServer)
             console.log(id, latLng);
         },
 
-        "click #stop": function()
+        "click .stop": function()
         {
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
