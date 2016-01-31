@@ -53,7 +53,14 @@ function createPath(prev, node)
 
     do {
         path.push(curr.pt);
-        curr = prev[curr.id];
+        var tmp = prev[curr.id][0];
+        if (prev[curr.id].length > 1) {
+            prev[curr.id].splice(0, 1);
+        } else if (prev[curr.id].length === 0) {
+            tmp = null;
+        }
+        curr = tmp;
+        console.log("3");
     } while (curr);
 
     return path;
@@ -95,7 +102,7 @@ function getPaths(ptA, ptB)
     for (var i = 0; i < nodes.length; i++) {
         var n = nodes[i];
         dist[n.id] = Number.POSITIVE_INFINITY;
-        prev[n.id] = null;
+        prev[n.id] = new Array();
     }
 
     dist[startNode.id] = 0;
@@ -103,17 +110,29 @@ function getPaths(ptA, ptB)
     while (nodes.length > 0) {
         nodes = nodes.sort(function(a, b) { return dist[b.id] - dist[a.id]; });
         var u = nodes.pop();
+        console.log("1");
 
         for (var i = 0; i < u.neighbors.length; i++) {
+            console.log("2");
             var n = u.neighbors[i];
+            for (var j = 0; j < prev[u.id].length; j++) {
+                if (prev[u.id][j].id === n.id) {
+                    continue;
+                }
+            }
+            if (n.id === startNode.id) {
+                continue;
+            }
+
             var alt = dist[u.id] + 1;
             if (alt < dist[n.id]) {
                 dist[n.id] = alt;
-                prev[n.id] = u;
             }
+            prev[n.id].push(u);
 
             if (n.id === endNode.id) {
                 paths.push(createPath(prev, n));
+                return paths;
                 if (paths.length > 3) {
                     return paths;
                 }
@@ -179,7 +198,7 @@ function onMarkerClick(e)
         var paths  = getPaths(start, end);
 
         var tulipText = '';
-        for (var i = 0; i < paths.count; i++) {
+        for (var i = 0; i < paths.length; i++) {
             tulipText = tulipText + '<div class="path" id="' + i + '">Path ' + i + '</div>';
         }
 
