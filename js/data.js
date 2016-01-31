@@ -1,5 +1,6 @@
-Segments = new Mongo.Collection("segments");
-Points   = new Mongo.Collection("points");
+Segments    = new Mongo.Collection("segments");
+Points      = new Mongo.Collection("points");
+AccelEvents = new Mongo.Collection("accel");
 
 Segments.schema = new SimpleSchema(
     { startPt:   {type: Object}
@@ -14,6 +15,16 @@ Points.schema = new SimpleSchema(
     { center: {type: Object}
     , count:  {type: Number}
 });
+
+AccelEvents.schema = new SimpleSchema(
+    { segID:     {type: String}
+    , x:         {type: Number}
+    , y:         {type: Number}
+    , z:         {type: Number}
+    , createdAt: {type: Date}
+});
+
+//////////////////////////////////////////
 
 function latLngToMeters(latLng)
 {
@@ -83,10 +94,13 @@ function endSegment(id)
         , endPt:   id
     });
 
+    var segID;
+
     if (segment) {
-        Segments.update({ _id: segment._id }, { $inc: { count: 1 }});
+        segID = segment._id;
+        Segments.update({ _id: segID }, { $inc: { count: 1 }});
     } else {
-        Segments.insert(
+        segID = Segments.insert(
             { startPt:   Session.get("startPt")
             , endPt:     id
             , quality:   0
@@ -95,33 +109,41 @@ function endSegment(id)
             , createdAt: new Date()
         });
     }
+
+    return segID;
 }
 
+function onMove(acc)
+{
+    AccelEvents.insert(
+        { segID:     "active"
+        , x:         acc.x
+        , y:         acc.y
+        , z:         acc.z
+        , createdAt: new Date()
+    });
+}
 
-/*function showPosition(position){
-  Data.insert({
-  text: "" + curr_lat + "_" + curr_long + "%%" + position.coords.latitude + "_" + position.coords.longitude,
-  name: "test " + counter,
-  start_lat: curr_lat,
-  start_long: curr_long,
-  stop_lat: position.coords.latitude,
-  stop_long: position.coords.longitude,
-  route_qual: 1.0,
-  route_grade: 1.0,
-  createdAt: new Date()
-  });
+function onFail()
+{
+    alert("onFail!");
+}
 
-  curr_lat = position.coords.latitude;
-  curr_long = position.coords.longitude;
-  }
+function associateActiveEvents(segID)
+{
+    var activeEvents = AccelEvents.find({ segID: "active" });
+    activeEvents.forEach(function(acc) {
+        AccelEvents.update({ _id: acc._id }, { $set: { segID: segID }});
+    });
+}
 
-  function tagLocation() {
-  if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(showPosition);
-
-  }
-  }
-  */
+function removeActiveEvents()
+{
+    var activeEvents = AccelEvents.find({ segID: "active" });
+    activeEvents.forEach(function(acc) {
+        AccelEvents.remove({ _id: acc._id });
+    });
+}
 
 if(Meteor.isServer)
 {
@@ -166,11 +188,14 @@ if (!Meteor.isServer)
             var latLng = getLatLng(id);
 
             if (id === Session.get("startPt")) {
+                removeActiveEvents();
                 return;
             }
 
-            endSegment(id);
+            var segID = endSegment(id);
             Session.set("startPt", id);
+
+            associateActiveEvents(segID);
 
             console.log(id, latLng);
         },
@@ -181,14 +206,16 @@ if (!Meteor.isServer)
             var latLng = getLatLng(id);
 
             if (id === Session.get("startPt")) {
+                removeActiveEvents();
                 return;
             }
 
-            endSegment(id);
-            placePointOnMap(id);
+            var segID = endSegment(id);
+
+            navigator.accelerometer.clearWatch(Session.get("watchID"));
+            associateActiveEvents(segID);
 
             console.log(id, latLng);
         }
     });
-
 }

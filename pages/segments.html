@@ -1,0 +1,15 @@
+<template name="segments">
+    <ul>
+        {{#each segments}}
+            {{> segment}}
+        {{else}}
+            <p>No Segments</p>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="segment">
+    <li class="seg-item" id={{_id}}>
+        {{_id}}
+    </li>
+</template>
