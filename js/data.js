@@ -28,15 +28,17 @@ AccelEvents.schema = new SimpleSchema(
 
 function latLngToMeters(latLng)
 {
-    var x = latLng.lat / 111130;
-    var y = latLng.lng / (111320 * Math.cos(latLng.lat));
+    var x = latLng.lat * 111130;
+    var y = latLng.lng * (111320 * Math.cos(latLng.lat));
+    console.log(latLng.lat + " -> " + x);
+    console.log(latLng.lng + " -> " + y);
     return { x: x, y: y };
 }
 
 function metersToLatLng(pt)
 {
-    var lat = pt.x * 111130;
-    var lng = pt.y * (111320 * Math.cos(lat));
+    var lat = pt.x / 111130;
+    var lng = pt.y / (111320 * Math.cos(lat));
     return { lat: lat, lng: lng };
 }
 
@@ -49,8 +51,10 @@ function getLatLng(id)
 // dist in meters
 function withinDist(ptA, ptB, dist)
 {
-    var sq = function(x) { return Math.pow(x, 2); };
-    return (sq(ptA.x - ptB.x) + sq(ptA.y - ptB.y)) < sq(dist);
+    var sq     = function(x) { return Math.pow(x, 2); };
+    var sqDist = sq(ptA.x - ptB.x) + sq(ptA.y - ptB.y);
+    console.log(sqDist);
+    return sqDist < sq(dist);
 }
 
 function insertGeoPoint()
@@ -64,7 +68,6 @@ function insertGeoPoint()
 
         if (withinDist(newPt, pt.center, 5)) {
             ptID = pt._id;
-
         }
         var ll = metersToLatLng(pt.center);
         var lat = ll.lat;
@@ -186,6 +189,7 @@ if (!Meteor.isServer)
             }
         }
     });
+
     var map = null;
     Template.data.rendered = function () {
         this.autorun(function () {
@@ -207,7 +211,6 @@ if (!Meteor.isServer)
 
 
     Template.data.events({
-
         "click #start": function()
         {
             var id     = insertGeoPoint();
@@ -218,10 +221,13 @@ if (!Meteor.isServer)
             drawPaths();
 
             var opts = { frequency: 100 };
-            var id   = navigator.accelerometer.watchAcceleration(onMove, onFail, opts);
-            Session.set("watchID", id);
+            if (navigator.accelerometer) {
+                var id = navigator.accelerometer.watchAcceleration(onMove, onFail, opts);
+                Session.set("watchID", id);
+                console.log(id);
+            }
 
-            console.log(id, latLng);
+            console.log("latLng: " + latLng.lat + ", " + latLng.lng);
         },
 
         "click #checkpoint": function()
@@ -230,6 +236,8 @@ if (!Meteor.isServer)
             var latLng = getLatLng(id);
 
             if (id === Session.get("startPt")) {
+                //console.log("End point = Start point");
+                //console.log("latLng: " + latLng.lat + ", " + latLng.lng);
                 removeActiveEvents();
                 return;
             }
@@ -247,6 +255,10 @@ if (!Meteor.isServer)
             var id     = insertGeoPoint();
             var latLng = getLatLng(id);
 
+            if (navigator.accelerometer) {
+                navigator.accelerometer.clearWatch(Session.get("watchID"));
+            }
+
             if (id === Session.get("startPt")) {
                 removeActiveEvents();
                 return;
@@ -254,7 +266,6 @@ if (!Meteor.isServer)
 
             var segID = endSegment(id);
 
-            navigator.accelerometer.clearWatch(Session.get("watchID"));
             associateActiveEvents(segID);
 
             console.log(id, latLng);

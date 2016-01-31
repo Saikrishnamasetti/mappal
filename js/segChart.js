@@ -5,8 +5,9 @@ if (!Meteor.isServer) {
             console.log(id);
             var data = new Array();
             var sq = function(x) { return Math.pow(x, 2); };
-            var accelEvents = AccelEvents.find({ _id: id }, { sort: { createdAt: 1 }});
+            var accelEvents = AccelEvents.find({ segID: id }, { sort: { createdAt: 1 }});
 
+            console.log(accelEvents.count());
             accelEvents.forEach(function(acc) {
                 data.push(Math.sqrt(sq(acc.x) + sq(acc.y) + sq(acc.z)) - 9.81);
             });
