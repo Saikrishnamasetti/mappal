@@ -169,10 +169,11 @@ function getNearestPoint(latLng)
 
     return rPt;
 }
-
+var path = null;
 function onMarkerClick(e)
 {
     if (!e.pathed) {
+        path = null;
         var latLng = Geolocation.latLng() || { lat: 0, lng: 0 };
         var start  = getNearestPoint(latLng);
         var end    = getNearestPoint(e.latlng);
@@ -182,7 +183,7 @@ function onMarkerClick(e)
         for (var i = 0; i < paths.count; i++) {
             tulipText = tulipText + '<div class="path" id="' + i + '">Path ' + i + '</div>';
         }
-
+        path = L.polyline(paths).addTo(map);
         e.bindPopup(tulipText);
         e.openPopup();
         e.pathed = true;

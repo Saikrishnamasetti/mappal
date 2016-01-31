@@ -98,7 +98,7 @@ function insertGeoPoint()
     return ptID;
 }
 
-function drawPaths()
+/*function drawPaths()
 {
     var test1 = L.latLng(36.99985, -122.06221);
     var test2 = L.latLng(37.00016, -122.06103);
@@ -109,6 +109,7 @@ function drawPaths()
     var pl = L.polyline(testarr).addTo(map);
     console.log("rip");
 }
+*/
 
 function endSegment(id)
 {
@@ -227,7 +228,7 @@ if (!Meteor.isServer)
             Session.set("active", true);
 
             var marker = L.marker([latLng.lat, latLng.lng]).addTo(map);
-            drawPaths();
+            //drawPaths();
             var opts = { frequency: 100 };
             if (navigator.accelerometer) {
                 var id = navigator.accelerometer.watchAcceleration(onMove, onFail, opts);
