@@ -73,15 +73,20 @@ if (!Meteor.isServer)
             Session.set("curr_lat", ll.lat);
             console.log(thisLocation);
 
+
         },
+
         "click #checkpoint": function()
         {
+
             var locs = Session.get("locations");
-            var old_lat = Session.get("curr_lat");
-            var old_long = Session.get("curr_long");
+            var old_lat = Session.get("curr_lat").toString();
+            var old_long = Session.get("curr_long").toString();
             var latLng = Geolocation.latLng();
-            var thisLocation = "" + latLng.lng + "," + latLng.lat;
-            Session.set("locations", locs + ";" + thisLocation);
+            var thisLocation = "";
+            thisLocation = thisLocation.concat(old_long , ",", old_lat, ";", latLng.lng, ",", latLng.lat);
+            locs = locs.concat("#", thisLocation);
+            Session.set("locations", locs);
             Data.insert({
                 text: thisLocation,
                 name: thisLocation,
@@ -98,8 +103,9 @@ if (!Meteor.isServer)
             });
             Session.set("curr_lat", latLng.lat);
             Session.set("curr_lng", latLng.lng);
-            console.log(locs + ";" + thisLocation);
+            console.log(locs);
             //add in the graph
+
 
 
         },
@@ -110,9 +116,11 @@ if (!Meteor.isServer)
             var old_lat = Session.get("curr_lat");
             var old_long = Session.get("curr_long");
             var latLng = Meteor.call("loc");
-            var thisLocation = "" + latLng.lng + "," + latLng.lat;
+            var thisLocation = "";
+            thisLocation = thisLocation.concat(old_long , ",", old_lat, ";", latLng.lng, ",", latLng.lat);
             Session.set("ending", thisLocation);
-            Session.set("locations", locs + ";" + thisLocation);
+            locs = locs.concat("#", thisLocation);
+            Session.set("locations", locs);
             Data.insert({
                 text: thisLocation,
                 name: thisLocation,
